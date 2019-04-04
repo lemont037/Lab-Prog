@@ -48,35 +48,69 @@ T *particiona(T *inicio, T *fim, T *pivo){
 template <typename T>
 void quicksort_indices(T* vetor, int inicio, int fim){
 	T aux;
-	if(fim-inicio>1){
-		int pivo = escolher_pivo(inicio, fim);
-		aux = vetor[inicio];
-		vetor[inicio] = vetor[pivo];
-		vetor[pivo] = aux;
-		int limite = inicio+1;
-		for (int i = inicio+1; i <= fim; ++i){
-			if (vetor[i] < vetor[inicio]){
-				// if(i != limite){
-					aux = vetor[limite];
-					vetor[limite] = vetor[i];
-					vetor[i] = aux;
-					limite++;
-				// }
-			}
-		}
-		aux = vetor[limite];
-		vetor[limite] = vetor[inicio];
-		vetor[inicio] = aux;
-
-		quicksort_indices(vetor, inicio,(fim+inicio)/2);
-		quicksort_indices(vetor, (fim+inicio)/2, fim);
-	}else if (fim-inicio==1){
-		if (vetor[inicio] > vetor[fim]){
+	if(inicio == fim-1){
+		if(vetor[inicio] > vetor[fim]){
 			aux = vetor[inicio];
 			vetor[inicio] = vetor[fim];
 			vetor[fim] = aux;
 		}
+	}else if(fim > inicio+1){
+
+		// int pivo = escolher_pivo(inicio, fim);
+		int limite = inicio+1; 
+		for (int i = inicio+1; i <= fim; ++i){
+			if(vetor[i] <= vetor[inicio]){
+				if(vetor[i] < vetor[limite]){
+					aux = vetor[i];
+					vetor[i] = vetor[limite];
+					vetor[limite] = aux;
+				}else{
+					limite++;
+				}
+			// }else if(){
+				
+			}
+
+		}
+
+		if(vetor[limite] < vetor[inicio]){
+
+			aux           = vetor[inicio];
+			vetor[inicio] = vetor[limite];
+			vetor[limite] = aux;
+		}
+
+		quicksort_indices(vetor, inicio, limite);
+		quicksort_indices(vetor, limite, fim);
 	}
+
+	// if(fim-inicio>1){
+	// 	int pivo = escolher_pivo(inicio, fim);
+	// 	aux = vetor[inicio];
+	// 	vetor[inicio] = vetor[pivo];
+	// 	vetor[pivo] = aux;
+	// 	int limite = inicio+1;
+	// 	for (int i = inicio+1; i <= fim; ++i){
+	// 		if (vetor[i] < vetor[inicio]){
+	// 			// if(i != limite){
+	// 				aux = vetor[limite];
+	// 				vetor[limite] = vetor[i];
+	// 				vetor[i] = aux;
+	// 				limite++;
+	// 			// }
+	// 		}
+	// 	}
+	// 	aux = vetor[limite];
+	// 	vetor[limite] = vetor[inicio];
+	// 	vetor[inicio] = aux;
+
+	// }else if (fim-inicio==1){
+	// 	if (vetor[inicio] > vetor[fim]){
+	// 		aux = vetor[inicio];
+	// 		vetor[inicio] = vetor[fim];
+	// 		vetor[fim] = aux;
+	// 	}
+	// }
 }
 
 int main(int argc, char const *argv[]){
@@ -85,12 +119,12 @@ int main(int argc, char const *argv[]){
 	cin >> n; 
 	cout << endl;
 	int* ac = gerar_instancia<int>(n);
-	int ac[] = {4,2,3,2};
+	// int ac[] = {4,2,3,2};
 
 	// if(!(escrever_instancia<int>(ac, n))){
-		for (int i = 0; i < n; ++i){
-			cout << ac[i] << endl;
-		}
+	for (int i = 0; i < n; ++i){
+		cout << ac[i] << endl;
+	}
 
 	// }
 	cout << endl;
