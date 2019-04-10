@@ -33,10 +33,10 @@ int escolher_pivo (int primeiro, int ultimo){
 //Particiona o vetor em 2 partições
 template <typename T>
 T *particiona(T *inicio, T *fim, T *pivo){
-    // swap(inicio, pivo);
+	swap(inicio, pivo);
 	T *limite = inicio+1;
 	for (T *i = inicio+1; i != fim; ++i){
-		if(*i <= *inicio){
+		if(*i < *inicio){
 			swap(i, limite);
 			limite++;           
 		}
@@ -46,92 +46,57 @@ T *particiona(T *inicio, T *fim, T *pivo){
 }
 
 template <typename T>
-void quicksort_indices(T* vetor, int inicio, int fim){
-	T aux;
-	if(inicio == fim-1){
-		if(vetor[inicio] > vetor[fim]){
-			aux = vetor[inicio];
-			vetor[inicio] = vetor[fim];
-			vetor[fim] = aux;
-		}
-	}else if(fim > inicio+1){
+void quicksort_p(T* vetor, int inicio, int fim){
+	if(inicio < fim){
 
-		// int pivo = escolher_pivo(inicio, fim);
-		int limite = inicio+1; 
-		for (int i = inicio+1; i <= fim; ++i){
-			if(vetor[i] <= vetor[inicio]){
-				if(vetor[i] < vetor[limite]){
-					aux = vetor[i];
-					vetor[i] = vetor[limite];
-					vetor[limite] = aux;
-				}else{
-					limite++;
-				}
-			// }else if(){
-				
-			}
+		int pivo = escolher_pivo(inicio,fim);
+		T *p_pivo = particiona(vetor+inicio, vetor+fim, vetor+pivo);
+		pivo = p_pivo-vetor;
+	// cout <<inicio<<" a "<<fim<< endl;
+	// cout <<"pivo = "<< vetor[pivo]<<endl;
+	// cout <<"-------------"<<endl;
+	
+	// for (int i = 0; i < fim; ++i){
+	// 	cout << vetor[i] << endl;
+	// }	
 
-		}
+	// cout <<"-------------"<<endl;
+		// if(fim-inicio >= 2){
 
-		if(vetor[limite] < vetor[inicio]){
-
-			aux           = vetor[inicio];
-			vetor[inicio] = vetor[limite];
-			vetor[limite] = aux;
-		}
-
-		quicksort_indices(vetor, inicio, limite);
-		quicksort_indices(vetor, limite, fim);
+			quicksort_p(vetor,inicio, pivo);
+			quicksort_p(vetor,pivo+1,fim);
+		// }
 	}
 
-	// if(fim-inicio>1){
-	// 	int pivo = escolher_pivo(inicio, fim);
-	// 	aux = vetor[inicio];
-	// 	vetor[inicio] = vetor[pivo];
-	// 	vetor[pivo] = aux;
-	// 	int limite = inicio+1;
-	// 	for (int i = inicio+1; i <= fim; ++i){
-	// 		if (vetor[i] < vetor[inicio]){
-	// 			// if(i != limite){
-	// 				aux = vetor[limite];
-	// 				vetor[limite] = vetor[i];
-	// 				vetor[i] = aux;
-	// 				limite++;
-	// 			// }
-	// 		}
-	// 	}
-	// 	aux = vetor[limite];
-	// 	vetor[limite] = vetor[inicio];
-	// 	vetor[inicio] = aux;
-
-	// }else if (fim-inicio==1){
-	// 	if (vetor[inicio] > vetor[fim]){
-	// 		aux = vetor[inicio];
-	// 		vetor[inicio] = vetor[fim];
-	// 		vetor[fim] = aux;
-	// 	}
-	// }
 }
 
 int main(int argc, char const *argv[]){
 	// gerar_instancia<int> gerar_instancia_int;
 	int n;
+	cout << endl;
 	cin >> n; 
 	cout << endl;
+	// int* ac;
 	int* ac = gerar_instancia<int>(n);
-	// int ac[] = {4,2,3,2};
+	// int ac[] = {4,3,3,1,3};
+
+	// n= 5;
 
 	// if(!(escrever_instancia<int>(ac, n))){
 	for (int i = 0; i < n; ++i){
 		cout << ac[i] << endl;
-	}
-
 	// }
+
+	}
 	cout << endl;
-	quicksort_indices(ac, 0, n-1);
+	quicksort_p(ac, 0, n);
+	// particiona(ac, ac+n, ac);
+
 	
 	for (int i = 0; i < n; ++i){
 		cout << ac[i] << endl;
 	}	
+
+
 	return 0;
 }
