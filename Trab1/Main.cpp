@@ -25,6 +25,14 @@ void swap(T *a, T *b){
 	*b = aux;
 }
 
+// swap para indices
+template <typename T>
+void swap(T* vetor, int a, int b){
+	T aux = vetor[a];
+	vetor[a] = vetor[b];
+	vetor[b] = aux;
+}
+
 int escolher_pivo (int primeiro, int ultimo){
 	return primeiro;
 }
@@ -43,6 +51,14 @@ T *particiona(T *inicio, T *fim, T *pivo){
 	}
 	swap(inicio, limite-1);
 	return limite-1;
+}
+
+// Particiona usando indices
+template <typename T>
+int particina_i(T *vetor, int inicio, int fim, int pivo){
+	swap(vetor, inicio, pivo);
+	
+	return 0;
 }
 
 template <typename T>
