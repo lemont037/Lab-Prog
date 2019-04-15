@@ -25,9 +25,10 @@ void swap(T *a, T *b){
 	*b = aux;
 }
 
+
 // swap para indices
 template <typename T>
-void swap(T* vetor, int a, int b){
+void swap_i(T* vetor, int a, int b){
 	T aux = vetor[a];
 	vetor[a] = vetor[b];
 	vetor[b] = aux;
@@ -55,10 +56,17 @@ T *particiona(T *inicio, T *fim, T *pivo){
 
 // Particiona usando indices
 template <typename T>
-int particina_i(T *vetor, int inicio, int fim, int pivo){
-	swap(vetor, inicio, pivo);
-	
-	return 0;
+int particiona_i(T *vetor, int inicio, int fim, int pivo){
+	swap_i(vetor, inicio, pivo);
+	int limite = inicio+1;
+	for (int i = limite; i < fim; ++i){
+		if(vetor[i] < vetor[inicio]){
+			swap_i(vetor, i, limite);
+			limite++;
+		}
+	}
+	swap_i(vetor, inicio, limite-1);
+	return limite-1;
 }
 
 template <typename T>
@@ -68,51 +76,65 @@ void quicksort_p(T* vetor, int inicio, int fim){
 		int pivo = escolher_pivo(inicio,fim);
 		T *p_pivo = particiona(vetor+inicio, vetor+fim, vetor+pivo);
 		pivo = p_pivo-vetor;
-	// cout <<inicio<<" a "<<fim<< endl;
-	// cout <<"pivo = "<< vetor[pivo]<<endl;
-	// cout <<"-------------"<<endl;
-	
-	// for (int i = 0; i < fim; ++i){
-	// 	cout << vetor[i] << endl;
-	// }	
-
-	// cout <<"-------------"<<endl;
-		// if(fim-inicio >= 2){
-
-			quicksort_p(vetor,inicio, pivo);
-			quicksort_p(vetor,pivo+1,fim);
-		// }
+		quicksort_p(vetor,inicio, pivo);
+		quicksort_p(vetor,pivo+1,fim);
 	}
-
 }
 
-int main(int argc, char const *argv[]){
+template <typename T>
+void quicksort_i(T* vetor, int inicio, int fim){
+	if(inicio < fim){
+		int pivo = escolher_pivo(inicio,fim);
+		pivo = particiona_i(vetor, inicio, fim, pivo);
+		quicksort_i(vetor, inicio, pivo);
+		quicksort_i(vetor, pivo+1, fim);
+	}
+}
+void quicksort_teste(){
 	// gerar_instancia<int> gerar_instancia_int;
 	int n;
 	cout << endl;
 	cin >> n; 
 	cout << endl;
-	// int* ac;
-	int* ac = gerar_instancia<int>(n);
-	// int ac[] = {4,3,3,1,3};
+	// int* instancia_1;
+	int* instancia_1 = gerar_instancia<int>(n);
+	int instancia_2[n];
+
+	// for (int i = 0; i < n; ++i){
+	// 	instancia_2[i] = instancia_1[i];
+	// }
+
+	// int instancia_1[] = {4,3,3,1,3};
 
 	// n= 5;
 
-	// if(!(escrever_instancia<int>(ac, n))){
+	// if(!(escrever_instancia<int>(instancia_1, n))){
+	cout <<"q1\tq2"<<endl;
 	for (int i = 0; i < n; ++i){
-		cout << ac[i] << endl;
-	// }
-
+		instancia_2[i] = instancia_1[i];
+		cout << instancia_1[i]<<"\t"<<instancia_2[i] << endl;
 	}
+
+	// }
 	cout << endl;
-	quicksort_p(ac, 0, n);
-	// particiona(ac, ac+n, ac);
+	cout << endl;
+
+	quicksort_p(instancia_1, 0, n);
+	quicksort_i(instancia_2, 0, n);
+	// particiona(instancia_1, instancia_1+n, instancia_1);
+	// particiona_i(instancia_2, 0, n, 0);
 
 	
+	cout <<"q1\tq2"<<endl;
 	for (int i = 0; i < n; ++i){
-		cout << ac[i] << endl;
-	}	
+		cout << instancia_1[i]<<"\t"<<instancia_2[i] << endl;
+		
+	}
+}
 
+
+int main(int argc, char const *argv[]){
+	quicksort_teste()	;
 
 	return 0;
 }
